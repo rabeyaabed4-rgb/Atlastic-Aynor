@@ -45,7 +45,8 @@ export default function App() {
   useEffect(() => {
     const path = window.location.pathname;
     const hash = window.location.hash;
-    if (path.startsWith('/admin') || hash === '#admin') {
+    // On GitHub Pages (e.g. /Atlasti-Aynor/), path ends with repository name, not /admin
+    if (path.endsWith('/admin') || path.endsWith('/admin/') || hash === '#admin') {
       checkAdminAuth();
     }
   }, []);
