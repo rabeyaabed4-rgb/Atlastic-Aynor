@@ -1,0 +1,25 @@
+{
+  "admins": [],
+  "products": [],
+  "orders": [],
+  "customers": [],
+  "settings": {
+    "shopName": "পছন্দের শপ",
+    "tagline": "আপনার পছন্দের প্রিমিয়াম পণ্য কিনুন ঘরে বসে সহজেই অর্ডার করুন",
+    "logoUrl": "",
+    "phone": "01700000000",
+    "email": "contact@pochendershop.com",
+    "facebookPageUrl": "https://facebook.com",
+    "insideDhakaDeliveryCharge": 60,
+    "outsideDhakaDeliveryCharge": 135,
+    "codEnabled": true,
+    "bkashEnabled": false,
+    "nagadEnabled": false,
+    "bkashNumber": "",
+    "nagadNumber": "",
+    "heroTitle": "আসসালামু আলাইকুম",
+    "heroSubtitle": "আপনার পছন্দের প্রিমিয়াম পণ্য কিনুন ঘরে বসে সহজেই অর্ডার করুন",
+    "heroImage": "",
+    "noticeText": "🚚 সারা বাংলাদেশে দ্রুত হোম ডেলিভারি | ১০০% ক্যাশ অন ডেলিভারি"
+  }
+}
