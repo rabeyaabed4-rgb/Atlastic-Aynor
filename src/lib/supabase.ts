@@ -12,21 +12,38 @@ import {
 
 // Environment variables for Supabase
 const metaEnv = (import.meta as unknown as { env?: Record<string, string> }).env || {};
-const supabaseUrl =
-  metaEnv.VITE_SUPABASE_URL ||
-  metaEnv.SUPABASE_URL ||
-  'https://pcselgjrqixwwededlfm.supabase.co';
-const supabaseAnonKey =
+
+const isValidKey = (key?: string) =>
+  Boolean(
+    key &&
+      !key.includes('...') &&
+      !key.includes('your-') &&
+      !key.includes('placeholder') &&
+      key.trim().length > 20
+  );
+
+const isValidUrl = (url?: string) =>
+  Boolean(
+    url &&
+      !url.includes('your-project-ref') &&
+      !url.includes('...') &&
+      url.trim().startsWith('https://')
+  );
+
+const rawUrl = metaEnv.VITE_SUPABASE_URL || metaEnv.SUPABASE_URL;
+const supabaseUrl = isValidUrl(rawUrl) ? rawUrl! : 'https://pcselgjrqixwwededlfm.supabase.co';
+
+const rawKey =
   metaEnv.VITE_SUPABASE_ANON_KEY ||
   metaEnv.SUPABASE_PUBLISHABLE_KEY ||
   metaEnv.VITE_SUPABASE_PUBLISHABLE_KEY ||
-  'sb_publishable_NgEn6XDMLhCXikU6MuvABA_hy1GNbXO';
+  metaEnv.SUPABASE_ANON_KEY;
+const supabaseAnonKey = isValidKey(rawKey)
+  ? rawKey!
+  : 'sb_publishable_NgEn6XDMLhCXikU6MuvABA_hy1GNbXO';
 
 export const isSupabaseConfigured = Boolean(
-  supabaseUrl &&
-    supabaseAnonKey &&
-    !supabaseUrl.includes('your-project-ref') &&
-    !supabaseAnonKey.includes('your-anon-key')
+  isValidUrl(supabaseUrl) && isValidKey(supabaseAnonKey)
 );
 
 // Initialize Supabase Client

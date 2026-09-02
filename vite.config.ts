@@ -3,20 +3,41 @@ import react from '@vitejs/plugin-react';
 import path from 'path';
 import {defineConfig} from 'vite';
 
+const isValidKey = (key?: string) =>
+  Boolean(
+    key &&
+      !key.includes('...') &&
+      !key.includes('your-') &&
+      !key.includes('placeholder') &&
+      key.trim().length > 20
+  );
+
+const isValidUrl = (url?: string) =>
+  Boolean(
+    url &&
+      !url.includes('your-project-ref') &&
+      !url.includes('...') &&
+      url.trim().startsWith('https://')
+  );
+
+const rawUrl = process.env.VITE_SUPABASE_URL || process.env.SUPABASE_URL;
+const resolvedUrl = isValidUrl(rawUrl) ? rawUrl! : 'https://pcselgjrqixwwededlfm.supabase.co';
+
+const rawKey =
+  process.env.VITE_SUPABASE_ANON_KEY ||
+  process.env.SUPABASE_PUBLISHABLE_KEY ||
+  process.env.SUPABASE_ANON_KEY;
+const resolvedKey = isValidKey(rawKey)
+  ? rawKey!
+  : 'sb_publishable_NgEn6XDMLhCXikU6MuvABA_hy1GNbXO';
+
 export default defineConfig(() => {
   return {
+    base: './',
     plugins: [react(), tailwindcss()],
     define: {
-      'import.meta.env.VITE_SUPABASE_URL': JSON.stringify(
-        process.env.VITE_SUPABASE_URL ||
-          process.env.SUPABASE_URL ||
-          'https://pcselgjrqixwwededlfm.supabase.co'
-      ),
-      'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(
-        process.env.VITE_SUPABASE_ANON_KEY ||
-          process.env.SUPABASE_PUBLISHABLE_KEY ||
-          'sb_publishable_NgEn6XDMLhCXikU6MuvABA_hy1GNbXO'
-      ),
+      'import.meta.env.VITE_SUPABASE_URL': JSON.stringify(resolvedUrl),
+      'import.meta.env.VITE_SUPABASE_ANON_KEY': JSON.stringify(resolvedKey),
     },
     resolve: {
       alias: {

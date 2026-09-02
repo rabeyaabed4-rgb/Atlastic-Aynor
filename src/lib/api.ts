@@ -29,7 +29,14 @@ async function fetchJson<T>(url: string, options: RequestInit = {}): Promise<T> 
     credentials: 'include',
   });
 
-  const data = await res.json();
+  let data: any;
+  try {
+    const text = await res.text();
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    data = { success: false, message: `সার্ভার রেসপন্স ত্রুটি (${res.status})` };
+  }
+
   if (!res.ok || data.success === false) {
     throw new Error(data.message || 'অনুরোধটি ব্যর্থ হয়েছে।');
   }
